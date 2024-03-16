@@ -1,5 +1,4 @@
 <template>
-  <h1>hello world</h1>
   <router-view>
   </router-view>
 </template>
@@ -11,15 +10,19 @@
 
 export default {
   name:'App',
-  data () { 
+  data () {
     return {
       store,
     }
   },
   methods: {
+    /**
+     * getting all of the players via axios call
+     */
     getAllPlayers(){
       axios.get(store.apiUrl + '/players').then((res)=>{
-        console.log(res);
+        this.store.allPlayers = this.store.allPlayers.concat(res.data.data);
+        //console.log(this.store)
       })
     }
   },
@@ -31,5 +34,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  
+  @use '/src/assets/style/partials/_variables.scss' as *;
 </style>
