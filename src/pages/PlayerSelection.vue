@@ -10,9 +10,9 @@
                 <div class="title-container-image">
                     <img src="\src\assets\images\Publisher material\Title 2000x618px.png" alt="" srcset="">
                 </div>
-                
                 <!-- <div v-for="player in store.allPlayers" class="playersContainer"> -->
                     <div class="playerContainer w-100 ">
+                    <NewPlayerSpecs class="w-99" />
                     <PlayerSpec  v-for="player in store.allPlayers" :player="player" class="w-99" />
 
                     </div>
@@ -28,6 +28,7 @@ import axios from 'axios';
 import {store} from '../data/store.js';
 import PlayerSpec from '../components/partials/PlayerSpec.vue';
 import BackgroundImage from '../components/partials/BackgroundImage.vue';
+import NewPlayerSpecs from '../components/partials/NewPlayerSpecs.vue';
 export default {
     name: "PlayerSelection",
     data () {
@@ -46,17 +47,30 @@ export default {
     created(){
         this.setPlayers();
     },
-    components: {BackgroundImage, PlayerSpec},
+    components: {BackgroundImage, PlayerSpec, NewPlayerSpecs},
 }
 </script>
 
 <style lang="scss" >
 @use '/src/assets/style/partials/_variables.scss' as *;
 
+    //scrollbar
+    ::-webkit-scrollbar-thumb {
+    background: $myGold;
+    }
+    
+
+    ::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: $myWood; /* or add it to the track */
+    
+    }
     .playerContainer{
         max-height: 40vh;
         overflow-y: auto;
-        
+        overflow-x: hidden;
+
     }
     .playerContainer>*{
         width: 99%;

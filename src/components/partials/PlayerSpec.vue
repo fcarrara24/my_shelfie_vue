@@ -2,8 +2,11 @@
     
     <div class="specs d-flex flex-row justify-content-between my-w100">
         <div class="d-flex flex-column justify-content-center">
-            <div class="playerNameContent font-size-2em">
+            <div v-if="!editMode" class="playerNameContent font-size-2em">
                 {{ player.nickname }}
+            </div>
+            <div v-if="editMode">
+                <input v-model="playerEdit" type="text" class="invisibleInput">
             </div>
         </div>
         <div class="playerActions d-flex flex-row gap-5">
@@ -18,9 +21,15 @@
                 </div>
             </div>
             <div class="playerActions d-flex flex-column gap-1">
-                <div class="edit opt-button">
+                <!-- edit button -->
+                <div v-if="!editMode" class="edit opt-button" @click="activateEdit">
                     <i class="fa-solid fa-screwdriver-wrench"></i>
                 </div>
+                <!-- confirm change button -->
+                <div v-if="editMode" class="edit opt-button" @click="endEdit">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <!-- delete button -->
                 <button class="delete opt-button" @click="deletePlayer">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
@@ -40,18 +49,40 @@ export default {
     name: 'PlayerSpec',
     data () {
         return {
-            store
+            store,
+            editMode: false,
+            playerEdit: this.player.nickname,
+            id: this.player.id,
         }
     },
     methods: {
+        activateEdit(){
+            this.editMode = true;
+        },
+        endEdit(){
+                if(this.playerEdit.length > 0){
+                    this.editMode = false;
 
+                //constrcting query
+                const data = {
+                    nickname: this.playerEdit,
+                    victories: this.player.victories,
+                    matches: this.player.matches
+                };
+                axios.put(this.store.apiUrl+'/players/'+this.id, data)
+                    .then((res)=>{
+                        console.log(res);
+                        location.reload();
+                    })
+                    .error((err)=>console.log(err))
+            }
+        },
         deletePlayer(){
-            let id=this.player.id;
-            axios.delete(store.apiUrl+'/players/'+id).then((res)=>{
+            
+            axios.delete(store.apiUrl+'/players/'+this.id).then((res)=>{
                 console.log('cancellato')
                 this.getAllPlayers;
-                //removing the array element
-                
+                location.reload()
 
             }).error((err)=>{
                 console.log(err)
@@ -62,7 +93,7 @@ export default {
                 this.store.allPlayers = this.store.allPlayers.concat(res.data.data);
                 //console.log(this.store)
             })
-        }
+        },
     },
     props: {
         player: Object
@@ -74,7 +105,13 @@ export default {
 
 @use '/src/assets/style/partials/_variables.scss' as *;
 
-
+.invisibleInput{
+    background-color: transparent;
+    font-size: 2em;
+    font-weight: bolder;
+    outline: none;
+    border: 0px solid;
+}
 .my-w100{
     width: 100%;
 }
