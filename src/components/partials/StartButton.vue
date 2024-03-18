@@ -1,20 +1,26 @@
 <template>
     <router-link :to="{ name: 'player' }" type="submit">
-        <div id="start_button" class="wood text-decoration-none" @click="StartGame">
+        <div id="start_button" class="wood text-decoration-none " @click="StartGame" :class="(store.selectedPlayers.length > 1 &&store.selectedPlayers.length <=4)?'ready':''">
             Nuova Partita 
         </div>
     </router-link>
 </template>
 
 <script>
+import {store} from '../../data/store.js';
 export default {
     data () {
-        return {}
+        return {
+            store,
+        }
     },
     methods: {
         startGame(){
-            console.log("start game");
-            alert('started');
+            if(store.selectedPlayers.length>1 &&store.selectedPlayers.length<=4){
+                console.log("start game");
+                alert('started');
+            }
+           
         }
     }
 }
@@ -53,6 +59,10 @@ export default {
     }
 }
 
+
+.ready{
+    color: lightseagreen!important;
+}
 .wood{
   color:#7c4314;
   border-color:#8c5324;

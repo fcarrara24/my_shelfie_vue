@@ -1,15 +1,20 @@
 <template>
     <router-link :to="{ name: 'player' }" type="submit">
         <div id="start_button" class="wood ">
-            <i class="fa-solid fa-user"></i>
+            <span v-if="store.selectedPlayers.length > 0 && store.selectedPlayers.length<=4">{{ store.selectedPlayers.length }}</span>
+            <i v-else class="fa-solid fa-user"></i>
+           
         </div>
     </router-link>
 </template>
 
 <script>
+import {store} from '../../data/store.js';
 export default {
     data () {
-        return {}
+        return {
+            store,
+        }
     },
     methods: {
         startGame(){

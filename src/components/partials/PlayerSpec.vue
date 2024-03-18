@@ -104,10 +104,13 @@ export default {
             })
         },
         addPlayer(){
-            this.toggleSelected = true;
-            let id = this.player.id
-            let playerToAdd = this.store.allPlayers.find(player => player.id === id);
-            this.store.selectedPlayers.push(playerToAdd);
+            if(this.store.selectedPlayers.length < 4){
+                this.toggleSelected = true;
+                let id = this.player.id
+                let playerToAdd = this.store.allPlayers.find(player => player.id === id);
+                this.store.selectedPlayers.push(playerToAdd);
+            }
+           
         },
         removePlayer(){
             this.toggleSelected = false;
