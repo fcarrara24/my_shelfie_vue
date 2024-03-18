@@ -1,7 +1,7 @@
-<template>
+<template >
     
-    <div class="specs d-flex flex-row justify-content-between my-w100">
-        <div class="d-flex flex-column justify-content-center">
+    <div class="specs d-flex flex-row justify-content-between my-w100 " :class="(toggleSelected)?'outlined':''">
+        <div class="d-flex flex-column justify-content-center ">
             <div v-if="!editMode" class="playerNameContent font-size-2em">
                 {{ player.nickname }}
             </div>
@@ -33,6 +33,14 @@
                 <button class="delete opt-button" @click="deletePlayer">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
+                <!-- add player -->
+                <button v-if="!toggleSelected" class="add opt-button" @click="addPlayer()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+                <!-- remove player -->
+                <button v-if="toggleSelected" class="add opt-button" @click="removePlayer()">
+                    <i class="fa-solid fa-user-minus"></i>
+                </button>
             </div>
         </div>
     
@@ -50,6 +58,7 @@ export default {
     data () {
         return {
             store,
+            toggleSelected: this.player.alreadySelected,
             editMode: false,
             playerEdit: this.player.nickname,
             id: this.player.id,
@@ -94,9 +103,24 @@ export default {
                 //console.log(this.store)
             })
         },
+        addPlayer(){
+            this.toggleSelected = true;
+            let id = this.player.id
+            let playerToAdd = this.store.allPlayers.find(player => player.id === id);
+            this.store.selectedPlayers.push(playerToAdd);
+        },
+        removePlayer(){
+            this.toggleSelected = false;
+            let id = this.player.id
+            //updating array accordingly to item to remove 
+            this.store.selectedPlayers = this.store.selectedPlayers.filter(item => item.id !== id);
+        },
+        
+
     },
     props: {
-        player: Object
+        player: Object,
+        
     }
 }
 </script>
@@ -105,6 +129,9 @@ export default {
 
 @use '/src/assets/style/partials/_variables.scss' as *;
 
+.outlined{
+    border: 10px solid greenyellow;
+}
 .invisibleInput{
     background-color: transparent;
     font-size: 2em;
@@ -112,6 +139,7 @@ export default {
     outline: none;
     border: 0px solid;
 }
+
 .my-w100{
     width: 100%;
 }

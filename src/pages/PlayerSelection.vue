@@ -7,15 +7,20 @@
     <div class="container d-flex flex-column justify-content-center" >
         <div class="row align-items-center justify-content-center">
             <div class="d-flex flex-column justify-content-center align-items-center">
-                <div class="title-container-image">
-                    <img src="\src\assets\images\Publisher material\Title 2000x618px.png" alt="" srcset="">
-                </div>
+                <router-link :to="{ name: 'home' }" class="d-flex justify-content-center" type="submit">
+                    <div class="title-container-image">
+                        <img src="\src\assets\images\Publisher material\Title 2000x618px.png" alt="" srcset="">
+                    </div>
+                </router-link>
                 <!-- <div v-for="player in store.allPlayers" class="playersContainer"> -->
                     <div class="playerContainer w-100 ">
                     <NewPlayerSpecs class="w-99" />
-                    <PlayerSpec  v-for="player in store.allPlayers" :player="player" class="w-99" />
+                    
+                    <PlayerSpec  v-for="player in store.allPlayers" :player="{ ...player, alreadySelected: store.selectedPlayers.includes(player) }" class="w-99 outline" :class="store.selectedPlayers.includes(player)"/>
 
                     </div>
+
+                   
                 <!-- </div> -->
             </div>
         </div>
@@ -33,7 +38,8 @@ export default {
     name: "PlayerSelection",
     data () {
         return {
-            store
+            store,
+            showSelected: store.selectedPlayers
         }
     },
     methods:{
@@ -42,7 +48,8 @@ export default {
                 this.store.allPlayers = this.store.allPlayers.concat(res.data.data);
                 //console.log(this.store)
             })
-        }
+        },
+        
     },
     created(){
         this.setPlayers();
@@ -53,7 +60,13 @@ export default {
 
 <style lang="scss" >
 @use '/src/assets/style/partials/_variables.scss' as *;
-
+    // for selected elements
+    .outlined{
+        border: 5px solid green!important;
+    }
+    .myGolded{
+        color: $myGold;
+    }
     //scrollbar
     ::-webkit-scrollbar-thumb {
     background: $myGold;
@@ -67,7 +80,7 @@ export default {
     
     }
     .playerContainer{
-        max-height: 40vh;
+        max-height: 30vh;
         overflow-y: auto;
         overflow-x: hidden;
 

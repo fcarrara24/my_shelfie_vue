@@ -1,6 +1,6 @@
 <template>
     <router-link :to="{ name: 'player' }" type="submit">
-        <div id="start_button" class="wood " @click="StartGame">
+        <div id="start_button" class="wood text-decoration-none" @click="StartGame">
             Nuova Partita 
         </div>
     </router-link>
@@ -23,7 +23,7 @@ export default {
 <style lang="scss" scoped>
 
 #start_button{
-
+    text-decoration: none;
     font-size: 2em;
 
     display: inline;

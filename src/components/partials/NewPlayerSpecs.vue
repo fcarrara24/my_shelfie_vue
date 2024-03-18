@@ -100,6 +100,10 @@ export default {
     text-decoration: none;
   }
 
+  a{
+    text-decoration: none!important;
+  }
+
 
 .specsPattern{
    color: $myWood;
