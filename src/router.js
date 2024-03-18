@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "./pages/HomePage.vue";
+import PlayerSelection from "./pages/PlayerSelection.vue";
 
 const routes = [
     {
@@ -8,6 +9,12 @@ const routes = [
         component: HomePage,
         meta: { title: "Home" },
     },
+    {
+        path: "/players",
+        name: "player",
+        component: PlayerSelection,
+        meta: { title: "PlayerSelection" },
+    }
 ];
 
 const router = createRouter({

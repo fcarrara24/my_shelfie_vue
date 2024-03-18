@@ -1,7 +1,9 @@
 <template>
-    <div id="start_button" class="wood " @click="StartGame">
-        <i class="fa-solid fa-user"></i>
-    </div>
+    <router-link :to="{ name: 'player' }" type="submit">
+        <div id="start_button" class="wood ">
+            <i class="fa-solid fa-user"></i>
+        </div>
+    </router-link>
 </template>
 
 <script>

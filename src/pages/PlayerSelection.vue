@@ -1,8 +1,8 @@
-<template class="template">
-   <!-- background -->
+<template>
+    <!-- background -->
     <background-image :image-url="'../../src/assets/images/misc/base_pagina2.jpg'" class="sfondo">
     </background-image>
-
+    
     <!-- content -->
     <div class="container d-flex flex-column justify-content-center" >
         <div class="row align-items-center justify-content-center">
@@ -10,50 +10,59 @@
                 <div class="title-container-image">
                     <img src="\src\assets\images\Publisher material\Title 2000x618px.png" alt="" srcset="">
                 </div>
-                <div class="d-flex flex-row gap-2">
-                    <PlayerButton />
-                    <StartButton/>
-                    <InfoButton/>
-                </div>
+                
+                <!-- <div v-for="player in store.allPlayers" class="playersContainer"> -->
+                    <div class="playerContainer w-100 ">
+                    <PlayerSpec  v-for="player in store.allPlayers" :player="player" class="w-99" />
+
+                    </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>
-
+    
 </template>
 
 <script>
-    import StartButton from '../components/partials/StartButton.vue';
-    import InfoButton from '../components/partials/InfoButton.vue';
-    import PlayerButton from '../components/partials/PlayerButton.vue';
-    import BackgroundImage from '../components/partials/BackgroundImage.vue';
-    export default {
-        name: "HomePage",
-        data () {
-            return {
-
-            }
-        },
-        
-        components: {StartButton, InfoButton, PlayerButton, BackgroundImage},
-        props: ['player'],
-    }
+import axios from 'axios';
+import {store} from '../data/store.js';
+import PlayerSpec from '../components/partials/PlayerSpec.vue';
+import BackgroundImage from '../components/partials/BackgroundImage.vue';
+export default {
+    name: "PlayerSelection",
+    data () {
+        return {
+            store
+        }
+    },
+    methods:{
+        setPlayers(){
+            axios.get(store.apiUrl + '/players').then((res)=>{
+                this.store.allPlayers = this.store.allPlayers.concat(res.data.data);
+                //console.log(this.store)
+            })
+        }
+    },
+    created(){
+        this.setPlayers();
+    },
+    components: {BackgroundImage, PlayerSpec},
+}
 </script>
 
+<style lang="scss" >
+@use '/src/assets/style/partials/_variables.scss' as *;
 
-
-<style lang="scss" scoped>
-
-    //settaggio di uno sfondo
-
-    .template {
-        background-image: url('src/assets/images/misc/base_pagina2.jpg');
-        background-size: cover; /* per adattare l'immagine alla dimensione della finestra del browser */
+    .playerContainer{
+        max-height: 40vh;
+        overflow-y: auto;
+        
     }
-
-
-
-
-    .container>*{
+    .playerContainer>*{
+        width: 99%;
+        box-sizing: border-box;
+    }
+      .container>*{
         text-align: center;
     }
     .title{
@@ -80,8 +89,12 @@
         height: auto;
     }
 
-
-
+    .playersContainer{
+        color: $myGold;
+    }
+    .w-99{
+        width: 98%;
+    }
 
 
 
@@ -97,6 +110,4 @@
         background-attachment: fixed;
         z-index: -1; /* Assicura che lo sfondo sia dietro il contenuto */
     }
-
-    
 </style>

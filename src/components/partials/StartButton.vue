@@ -1,7 +1,9 @@
 <template>
-    <div id="start_button" class="wood " @click="StartGame">
-        Nuova Partita 
-    </div>
+    <router-link :to="{ name: 'player' }" type="submit">
+        <div id="start_button" class="wood " @click="StartGame">
+            Nuova Partita 
+        </div>
+    </router-link>
 </template>
 
 <script>

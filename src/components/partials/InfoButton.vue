@@ -1,7 +1,9 @@
 <template>
-    <div id="start_button" class="wood " @click="downloadRules">
-        <i class="fa-solid fa-circle-info"></i>
-    </div>
+    <router-link :to="{ name: 'home' }" type="submit">
+        <div id="start_button" class="wood " @click="downloadRules">
+            <i class="fa-solid fa-circle-info"></i>
+        </div>
+    </router-link>
 </template>
 
 <script>
