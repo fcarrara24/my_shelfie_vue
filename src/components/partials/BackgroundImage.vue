@@ -10,8 +10,8 @@
 export default {
 props: {
     imageUrl: {
-    type: String,
-    required: true
+        type: String,
+        required: true
     }
 }
 };

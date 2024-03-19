@@ -1,0 +1,185 @@
+<template class="position-relative ">
+    <!-- background -->
+    <div class="backGroundImg position-absolute h-100 z-under">
+        <img src="../../src/assets/images/misc/base_pagina2.jpg"   alt="">
+    </div>
+
+    <!-- content -->
+    <div class="gameContainer d-flex justify-content-between">
+        <div class="   shelf position-relative">
+            <!-- shelf bg -->
+            <img class=" table position-absolute" src="../../src/assets/images/boards/livingroom.png" alt="">
+            <!-- card container -->
+            <div class="grid">
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+
+
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+            </div>
+        </div>
+
+        
+        <div class="w-50 h-100 game-content">
+
+        </div>
+
+    </div>
+</template>
+
+<script>
+
+export default {
+    name: 'Game',
+    data () {
+        return {}
+    },
+
+}
+</script>
+
+<style lang="scss" scoped>
+    .gameContainer{
+        width: 100%;
+        height: 100vh;
+    }
+    
+
+    img{
+        max-width: 100%;
+        min-height: 100%;
+        
+    }
+
+    .backGroundImg{
+        z-index: -1;
+        background-size: cover;
+        min-height: 100vh;
+        
+    }
+    .backGroundImg>img{
+        min-height: 100vh;
+        
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr); /* 9 colonne con larghezza uguale */
+        grid-template-rows: repeat(9, 1fr); /* 9 righe con altezza uguale */
+        gap: 2px; /* Spazio tra le celle */
+       
+        position: relative;
+     
+        padding-left: 3.9%;
+        padding-right: 4.9%;
+        padding-top: 3.9%;
+        padding-bottom: 4%;
+
+        width: 100vh;
+        height: 100vh;
+    }
+
+    .square {
+        background-color: rgba(255, 255, 255, 0.138); /* Colore di sfondo del quadrato */
+        //border: 1px solid black; /* Bordo nero */
+    }
+    
+    .table{
+        aspect-ratio: 1/1;
+        width: 100vh!important;
+        height: 100vh!important;
+        max-width: 100vh!important;
+        max-height: 100vh!important;
+        min-height: 100vh!important;
+    }
+</style>

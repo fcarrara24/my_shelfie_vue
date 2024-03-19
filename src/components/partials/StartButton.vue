@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{ name: 'player' }" type="submit">
+    <router-link :to="{ name: 'game' }" type="submit">
         <div id="start_button" class="wood text-decoration-none " @click="StartGame" :class="(store.selectedPlayers.length > 1 &&store.selectedPlayers.length <=4)?'ready':''">
             Nuova Partita 
         </div>
