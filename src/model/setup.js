@@ -43,7 +43,7 @@ const setupGrid = [
 
 
 
-function setupGame(playerNum) {
+export function setupGame(playerNum) {
 
     //setting up bag 
     new Bag();

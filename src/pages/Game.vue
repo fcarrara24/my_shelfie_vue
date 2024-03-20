@@ -10,102 +10,11 @@
             <!-- shelf bg -->
             <img class=" table position-absolute" src="../../src/assets/images/boards/livingroom.png" alt="">
             <!-- card container -->
-            <div class="grid">
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-
-
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-
-
-
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-
-
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-
-
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-
-
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
+            <div class="grid" >
+                <div v-for="(el, index) in Table.flattenedMatrix()" class="square" @click="selectTile(index)">
+                    <img v-if="el !== 0" class="w-100 h-100 " :class="buttonClass(index)" :src="'../../src/assets/images/item tiles/'+el+'.png'" alt="">
+                </div>
+               
             </div>
         </div>
 
@@ -119,11 +28,53 @@
 
 <script>
 
+import {setupGame} from '../model/setup.js'
+import Table from '../model/table.js';
+
 export default {
     name: 'Game',
     data () {
-        return {}
+        return {
+            Table
+        }
+
     },
+    methods:{
+        selectTile(index){
+            const coords = this.indexToCoords(index)
+            Table.selectTile(coords.x, coords.y);
+            
+        },
+        selectable(index){
+            const coords = this.indexToCoords(index);
+            return Table.totalSolutions.includes([coords.x, coords.y]);s
+        },
+        indexToCoords(index){
+            let x = Math.floor(index / 9);
+            let y = index % 9;
+            return {x: x, y: y}
+        }
+    },
+    created(){
+        
+    },
+    computed: {
+        buttonClass() {
+            return (index) => {
+            const coords = this.indexToCoords(index);
+                if(Table.totalSolutions.includes([coords.x, coords.y])){
+                    console.log('greentile')
+                    return ' tileGreen'
+                } else {
+                    return ' '
+                }
+            };
+        }
+    },
+    beforeCreate(){
+        setupGame(2);
+    }
+    
 
 }
 </script>
@@ -181,5 +132,12 @@ export default {
         max-width: 100vh!important;
         max-height: 100vh!important;
         min-height: 100vh!important;
+    }
+
+    .tileGreen{
+        border: 5px solid greenyellow;
+    }
+    .tileRed{
+        border: 5px solid red;
     }
 </style>
