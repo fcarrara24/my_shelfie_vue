@@ -11,8 +11,8 @@
             <img class=" table position-absolute" src="../../src/assets/images/boards/livingroom.png" alt="">
             <!-- card container -->
             <div class="grid" >
-                <div v-for="(el, index) in Table.flattenedMatrix()" class="square" @click="selectTile(index)">
-                    <img v-if="el !== 0" class="w-100 h-100 " :class="buttonClass(index)" :src="'../../src/assets/images/item tiles/'+el+'.png'" alt="">
+                <div ref="squares" v-for="(el, index) in Table.flattenedMatrix()" class="square" @click="selectTile(index)">
+                    <img v-if="el !== 0" class="w-100 h-100 "  :src="'../../src/assets/images/item tiles/'+el+'.png'" alt="">
                 </div>
                
             </div>
@@ -42,8 +42,20 @@ export default {
     methods:{
         selectTile(index){
             const coords = this.indexToCoords(index)
-            Table.selectTile(coords.x, coords.y);
-            
+            const solutions = Table.selectTile(coords.x, coords.y);
+            console.log(solutions);
+
+            this.resetVisual();
+
+            solutions.forEach((el)=>{
+                
+                let index = this.decriptIndex(el[0], el[1]);
+               
+                const selectedSquare = this.$refs.squares[index];
+               
+                selectedSquare.style.border = '5px solid greenyellow';
+            })
+            //const selectedSquare = this.$refs.squares[index];
         },
         selectable(index){
             const coords = this.indexToCoords(index);
@@ -53,24 +65,17 @@ export default {
             let x = Math.floor(index / 9);
             let y = index % 9;
             return {x: x, y: y}
+        },
+        decriptIndex(x, y){
+            return x*9 + y;
+        },
+        resetVisual(){
+            this.$refs.squares.forEach(el =>{
+                el.style.border = '';
+            })
         }
     },
-    created(){
-        
-    },
-    computed: {
-        buttonClass() {
-            return (index) => {
-            const coords = this.indexToCoords(index);
-                if(Table.totalSolutions.includes([coords.x, coords.y])){
-                    console.log('greentile')
-                    return ' tileGreen'
-                } else {
-                    return ' '
-                }
-            };
-        }
-    },
+    
     beforeCreate(){
         setupGame(2);
     }
