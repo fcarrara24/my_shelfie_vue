@@ -12,15 +12,19 @@
             <!-- card container -->
             <div class="grid" >
                 <div ref="squares" v-for="(el, index) in Table.flattenedMatrix()" class="square" @click="selectTile(index)">
-                    <img v-if="el !== 0" class="w-100 h-100 "  :src="'../../src/assets/images/item tiles/'+el+'.png'" alt="">
+                    <img ref="images" v-show="el !== 0" class="w-100 h-100 "  :src="'../../src/assets/images/item tiles/'+el+'.png'" alt="">
                 </div>
-               
             </div>
+
         </div>
 
-        
-        <div class="w-50 h-100 game-content">
-
+        <div class="w-50 h-100 game-content d-flex flex-row justify-content-between ">
+            <div class="opzioni w-50 mt-4 d-flex flex-row gap-2">
+                <div v-for="selectable in 3" class=" squareSelect ">
+                    <img v-if="selectable-1 < arrayColors.length " :src="'../../src/assets/images/item tiles/'+arrayColors[selectable -1]+'.png'" alt="">
+                    <img v-else src="../../src/assets/images/misc/sfondo parquet.jpg" alt="">
+                </div>
+            </div>
         </div>
 
     </div>
@@ -35,56 +39,115 @@ export default {
     name: 'Game',
     data () {
         return {
-            Table
+            Table,
+            firstClick: true,
+            prevElement: [],
+            arrayColors: []
         }
 
     },
     methods:{
         selectTile(index){
-            const coords = this.indexToCoords(index)
-            const solutions = Table.selectTile(coords.x, coords.y);
-            console.log(solutions);
+            if(this.firstClick){
+                const coords = this.indexToCoords(index);
+                //seleziono il primo elemento che pesco 
+                this.prevElement = [coords.x, coords.y];
+                const solutions = Table.selectTile(coords.x, coords.y);
+                //console.log(solutions);
 
-            this.resetVisual();
+                this.resetVisual();
 
-            solutions.forEach((el)=>{
-                
-                let index = this.decriptIndex(el[0], el[1]);
-               
-                const selectedSquare = this.$refs.squares[index];
-               
-                selectedSquare.style.border = '5px solid greenyellow';
-            })
+                solutions.forEach((el)=>{
+
+                    let index = this.decriptIndex(el[0], el[1]);
+
+                    const selectedSquare = this.$refs.squares[index];
+
+                    selectedSquare.style.border = '5px solid greenyellow';
+
+                    this.firstClick = false;
+                })
+            } else { 
+                const coords = this.indexToCoords(index);
+                //se l'elemento è selezionabile
+                if(this.selectable(index)){
+                    //taking elements drawn
+                    const colors = Table.validateAndTake(this.prevElement, this.indexToCoordsPlain(index))
+                    
+                    this.arrayColors= colors;
+                    //alert('colors')
+                    this.resetVisual();
+
+                } else {
+                    this.resetVisual();
+                }
+
+                this.firstClick = true;
+            }
             //const selectedSquare = this.$refs.squares[index];
         },
         selectable(index){
             const coords = this.indexToCoords(index);
-            return Table.totalSolutions.includes([coords.x, coords.y]);s
+            const contieneArrayXY = Table.totalSolutions.some(arrayXY => {
+                // Verifica se l'array xy corrente corrisponde all'array xy da cercare
+                return arrayXY[0] === coords.x && arrayXY[1] === coords.y;
+            });
+            return contieneArrayXY;
         },
         indexToCoords(index){
             let x = Math.floor(index / 9);
             let y = index % 9;
             return {x: x, y: y}
         },
+        indexToCoordsPlain(index){
+            let x = Math.floor(index / 9);
+            let y = index % 9;
+            return {0: x, 1: y};
+        },
         decriptIndex(x, y){
             return x*9 + y;
         },
         resetVisual(){
-            this.$refs.squares.forEach(el =>{
+            //console.log(Table.flattenedMatrix());
+            const flatMatrix = Table.flattenedMatrix();
+            this.$refs.squares.forEach((el, index) =>{
                 el.style.border = '';
-            })
+
+            });
+            //console.log(this.$refs.images)
+            this.$refs.images.forEach((el, index) =>{
+                //el.style.display = 
+                flatMatrix[index] >0 ? el.style.display = 'block' : el.style.display = 'none'; 
+            });
         }
     },
     
     beforeCreate(){
         setupGame(2);
     }
+
+    
     
 
 }
 </script>
 
 <style lang="scss" scoped>
+@use '/src/assets/style/partials/_variables.scss' as *;
+    .squareSelect{
+        background-color: greenyellow;
+        aspect-ratio: 1 / 1;
+        border: 4px solid $myGold;
+        border-radius: 5px;
+        
+    }
+
+    .opzioni{
+        max-width: 21vw;
+        max-height: 7vw;
+        aspect-ratio: 3/1;
+        
+    }
     .gameContainer{
         width: 100%;
         height: 100vh;

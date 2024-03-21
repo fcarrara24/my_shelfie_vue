@@ -6,6 +6,7 @@ export default class Table {
     static matrix;
     static arrayOptions;
 
+    static coordsToRemove = [];
     static totalSolutions = [];
     constructor(selectedSetup) {
 
@@ -22,9 +23,19 @@ export default class Table {
         //console.log(Table.matrix)
     }
 
+    static isInOption(x, y) {
+        console.log(this.totalSolutions)
+        console.log(x, y)
+        return this.totalSolutions.includes([x, y]);
+    }
+
     static flattenedMatrix() {
 
         return this.matrix.flat(); // Flatten the matrix array
+    }
+
+    static removeItem() {
+
     }
 
     static selectTile(x, y) {
@@ -66,6 +77,44 @@ export default class Table {
             depth++;
             Table.checkIfTakeable(newX, newY, dir, depth, newOut)
         }
+    }
+
+    static validateAndTake(arr1, arr2) {
+        // if()
+        //console.log(arr1, arr2)
+        let minSolution = []
+        let minLength = 5;
+        this.arrayOptions.forEach(subArr => {
+            if (this.isCoordInArray(arr1, subArr) && this.isCoordInArray(arr2, subArr) && subArr.length < minLength) {
+                //settare la nuova lunghezza 
+                minLength = subArr.length;
+                minSolution = subArr;
+            }
+        });
+        //stampo la soluzione minima
+        //console.log(minSolution)
+
+        // prendo gli elementi e li tolgo dalla matrice
+        return this.takeAndEmpty(minSolution);
+    }
+
+    static takeAndEmpty(arrTake) {
+        this.coordsToRemove = arrTake;
+        const outColors = []
+        arrTake.forEach(arr => {
+            //prendo i colori
+            outColors.push(this.matrix[arr[0]][arr[1]]);
+            // svuoto le coordinate
+            this.matrix[arr[0]][arr[1]] = 0
+        });
+        //ritorno i colori della soluzione
+        return outColors;
+    }
+
+    static isCoordInArray(coord, arrayOfArrays) {
+        return arrayOfArrays.some(function (array) {
+            return array.length === 2 && array[0] === coord[0] && array[1] === coord[1];
+        });
     }
 
     static pickable(x, y) {
